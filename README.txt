@@ -11,5 +11,4 @@ pip3 install mysqlclient
 
 
 Github:
-
-https://github.com/Jammooly1/CS4783Assignment
+https://github.com/Jammooly1/CS4783Assignment/tree/assignment1
