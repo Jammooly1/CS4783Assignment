@@ -31,7 +31,7 @@ def props():
             rv = curs.fetchall()
             l = []
             for result in rv:
-                content = {'id': result[0], 'address': result[1], 'zip': result[2]}
+                content = {'id': result[0], 'address': result[1], 'city': result[2], 'state': result[3], 'zip': result[4]}
                 l.append(content)
 
             return jsonify(l)
@@ -57,9 +57,53 @@ def props():
         curs.close()
         db.close()
 
-    else:
-        return "man"
+    elif request.method == 'POST':
+        data = request.get_json()
+        addr = data['address']
+        city = data['city']
+        state = data['state']
+        zip_code = data['zip']
 
+        try:
+            query = "INSERT INTO usprops(address, city, state, zip) values (%s, %s, %s, %s)"
+            args = (addr, city, state, zip_code)
+            curs.execute(query, args)
+            db.commit()
+            return "added"
+        except:
+            return "something went wrong"
+        curs.close()
+        db.close()
+
+    else:
+        return "NOT GET OR POST"
+
+
+@app.route('/properties/<req_id>', methods=['GET', 'DELETE'])
+def get_id(req_id):
+    if request.method == 'GET':
+        try:
+            query = "SELECT * FROM usprops where id = %s"
+            curs.execute(query, req_id)
+
+            rv = curs.fetchall()
+            l = []
+            for result in rv:
+                content = {'id': result[0], 'address': result[1], 'city': result[2], 'state': result[3], 'zip': result[4]}
+                l.append(content)
+
+            return jsonify(l)
+
+        except:
+            return "Error, unable to fetch properties"
+    elif request.method == 'DELETE':
+        try:
+            query = "DELETE FROM usprops where id = %s"
+            curs.execute(query, req_id)
+            db.commit()
+            return "deleted successfully"
+        except:
+            return "something went wrong"
 
 @app.route('/properties/<id>', methods=['GET', 'DELETE'])
 def get_id(req_id):
