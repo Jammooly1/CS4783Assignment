@@ -1,0 +1,281 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "assignment2"
+  },
+  "tags": [
+    {
+      "name": "Address request",
+      "description": "API for requesting and return address requests"
+    }
+  ],
+  "paths": {
+    "/properties": {
+      "get": {
+        "tags": [
+          "Address Request"
+        ],
+        "summary": "returns address request",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "address": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "city": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "zip": {
+                  "type": "string",
+                  "format": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "an authorization header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "data to add",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "city": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "zip": {
+                  "type": "string",
+                  "format": "string"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "Address Request"
+        ],
+        "summary": "Create a new address request system",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "address": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "city": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "zip": {
+                  "type": "string",
+                  "format": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      }
+    },
+    "/properties/{req_id}": {
+      "parameters": [
+        {
+          "name": "req_id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the cat that we want to match",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Address by ID Request"
+        ],
+        "summary": "returns address with specific ID request",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "address": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "city": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "zip": {
+                  "type": "string",
+                  "format": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "an authorization header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          " Delete Address by ID Request"
+        ],
+        "summary": "deletes address with specific ID request",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      },
+      "put": {
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "an authorization header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "data to add",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "city": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "zip": {
+                  "type": "string",
+                  "format": "string"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          " update Address Request"
+        ],
+        "summary": "Update an address request system",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "address": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "city": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "format": "string"
+                },
+                "zip": {
+                  "type": "string",
+                  "format": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      }
+    }
+  }
+}
+
+
