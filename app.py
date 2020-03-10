@@ -1,13 +1,17 @@
+import pymysql
 from flask import Flask, jsonify, abort, make_response, Response
 from flask import request
 from flask_swagger_ui import get_swaggerui_blueprint
-
+import pymysql.cursors
 import MySQLdb as mdb
 
 app = Flask(__name__)  # create the Flask app
 
-db = mdb.connect("129.115.27.67", "iuq276", "kyYstgM5lpci8YaCxT4R", "iuq276")
-
+# db = mdb.connect("129.115.27.67", "iuq276", "kyYstgM5lpci8YaCxT4R", "iuq276")
+db = pymysql.connect(host='129.115.27.67', user='iuq276', password='kyYstgM5lpci8YaCxT4R', db='iuq276',
+                     charset='utf8mb4',
+                     cursorclass=pymysql.cursors.DictCursor
+                     )
 curs = db.cursor()
 
 app.config["JSON_SORT_KEYS"] = False
@@ -44,13 +48,8 @@ def props():
         try:
             curs.execute("SELECT * FROM usprops")
             rv = curs.fetchall()
-            l = []
-            for result in rv:
-                content = {'id': result[0], 'address': result[1], 'city': result[2], 'state': result[3],
-                           'zip': result[4]}
-                l.append(content)
 
-            return jsonify(l)
+            return jsonify(rv)
 
         except:
             return Response("Error, unable to fetch properties", status=404, mimetype="application/json")
@@ -94,15 +93,9 @@ def get_id(req_id):
             curs.execute(query, req_id)
 
             rv = curs.fetchall()
-            l = []
-            content = {}
-            for result in rv:
-                content = {'id': result[0], 'address': result[1], 'city': result[2], 'state': result[3],
-                           'zip': result[4]}
-                l.append(content)
-            if not content:
+            if not rv:
                 abort(404)
-            return jsonify(l)
+            return jsonify(rv)
 
         except:
             return Response("something went wrong", status=404, mimetype="application/json")
@@ -138,20 +131,15 @@ def get_id(req_id):
             curs.execute(query, req_id)
 
             rv = curs.fetchall()
-            l = []
-            content = {}
-            for result in rv:
-                content = {'id': result[0], 'address': result[1], 'city': result[2], 'state': result[3],
-                           'zip': result[4]}
-                l.append(content)
+
             if not addr:
-                addr = l[0].get('address')
+                addr = rv.get('address')
             if not city:
-                city = l[0].get('city')
+                city = rv.get('city')
             if not state:
-                state = l[0].get('state')
+                state = rv.get('state')
             if not zip_code:
-                zip_code = l[0].get('zip')
+                zip_code = rv.get('zip')
 
             try:
                 query = "Update usprops set address = %s, city =%s, state = %s, zip = %s where id = %s"
@@ -168,5 +156,5 @@ def get_id(req_id):
 
 
 if __name__ == '__main__':
-    app.run(ssl_context='adhoc',port=12100)
+    app.run(ssl_context='adhoc', port=12100)
     # app.run()
