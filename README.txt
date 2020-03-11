@@ -14,6 +14,7 @@ Instructions:
 
 When adding the api KEY, add X-Api-Key=<key> as a header
 To access swagger ui just type /swagger
+when running the program add pram http or https
 
 
 

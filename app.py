@@ -1,11 +1,14 @@
 import pymysql
-from flask import Flask, jsonify, abort, make_response, Response
+from flask import Flask, jsonify, abort, Response
 from flask import request
+from flask_sslify import SSLify
 from flask_swagger_ui import get_swaggerui_blueprint
 import pymysql.cursors
-import MySQLdb as mdb
+import sys
 
 app = Flask(__name__)  # create the Flask app
+context = ('web.crt', 'web.key')
+sslify = SSLify(app)
 
 # db = mdb.connect("129.115.27.67", "iuq276", "kyYstgM5lpci8YaCxT4R", "iuq276")
 db = pymysql.connect(host='129.115.27.67', user='iuq276', password='kyYstgM5lpci8YaCxT4R', db='iuq276',
@@ -156,5 +159,8 @@ def get_id(req_id):
 
 
 if __name__ == '__main__':
-    app.run(ssl_context='adhoc', port=12100)
-    # app.run()
+    if sys.argv[1] == 'https' or sys.argv[1] == 'Https':
+        #context = ('web.crt', 'web.key')
+        app.run(ssl_context=('cert.pem', 'key.pem'), port=12100)
+    elif sys.argv[1] == 'http' or sys.argv[1] == 'HTTP':
+        app.run(port=12100)
