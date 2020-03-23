@@ -8,7 +8,7 @@ import sys
 
 app = Flask(__name__)  # create the Flask app
 context = ('web.crt', 'web.key')
-sslify = SSLify(app)
+#sslify = SSLify(app)
 
 # db = mdb.connect("129.115.27.67", "iuq276", "kyYstgM5lpci8YaCxT4R", "iuq276")
 db = pymysql.connect(host='129.115.27.67', user='iuq276', password='kyYstgM5lpci8YaCxT4R', db='iuq276',
@@ -161,6 +161,6 @@ def get_id(req_id):
 if __name__ == '__main__':
     if sys.argv[1] == 'https' or sys.argv[1] == 'Https':
         #context = ('web.crt', 'web.key')
-        app.run(ssl_context=('cert.pem', 'key.pem'), port=12100)
+        app.run(host="0.0.0.0", port=12100, ssl_context='adhoc')
     elif sys.argv[1] == 'http' or sys.argv[1] == 'HTTP':
-        app.run(port=12100)
+        app.run(host="0.0.0.0", port=12100)
