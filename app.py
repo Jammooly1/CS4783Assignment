@@ -5,8 +5,10 @@ from flask_sslify import SSLify
 from flask_swagger_ui import get_swaggerui_blueprint
 import pymysql.cursors
 import sys
+from flask_cors import CORS
 
 app = Flask(__name__)  # create the Flask app
+CORS(app)
 context = ('web.crt', 'web.key')
 #sslify = SSLify(app)
 
